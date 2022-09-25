@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Models\Stock;
+
+use function PHPSTORM_META\type;
 
 class ProductController extends Controller
 {

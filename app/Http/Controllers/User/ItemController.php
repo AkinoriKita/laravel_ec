@@ -8,15 +8,17 @@ use App\Models\Product;
 
 class ItemController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:users');
-    }
-
     public function index()
     {
         $products = Product::paginate(15);
 
-        return view('user.items.index', compact('products'));
+        return view('user.index', compact('products'));
+    }
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('user.show', compact('product'));
     }
 }
