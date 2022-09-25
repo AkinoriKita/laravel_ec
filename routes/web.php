@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('user.welcome');
 });
 
+Route::get('user/items/index', function () {
+    return view('user.items.index');
+});
+
 Route::get('/dashboard', function () {
     return view('user.dashboard');
 })->middleware(['auth:users'])->name('dashboard');
