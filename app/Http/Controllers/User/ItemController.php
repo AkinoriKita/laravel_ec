@@ -9,11 +9,37 @@ use App\Models\Stock;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(15);
+        $products = Product::paginate(20);
 
-        return view('user.index', compact('products'));
+        $keyword = $request->input('keyword');
+
+        $query = Product::query();
+
+        // 検索フォームにキーワードが入力されたら
+        if (!is_null($keyword)) {
+            $spaceConvert = mb_convert_kana($keyword, 's');
+
+            $keywords = preg_split('/[\s]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach ($keywords as $word) {
+                $query->where('products.name', 'like', '%' . $word . '%');
+            }
+
+            $products = $query->paginate(20);
+
+            if (!$query->exists()) {
+                return redirect()
+                    ->route('user.items.index')
+                    ->with([
+                        'message' => '検索キーワードと一致する結果が見つかりませんでした。',
+                        'status' => 'alert'
+                    ]);
+            }
+        }
+
+        return view('user.index', compact('products', 'keyword'));
     }
 
     public function show($id)

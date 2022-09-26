@@ -115,15 +115,6 @@ class CartController extends Controller
 
     public function success()
     {
-        // $items = Cart::where('user_id', Auth::id())->get();
-        // $products = CartService::getItemsInCart($items);
-        // $user = User::findOrFail(Auth::id());
-
-        // SendThanksMail::dispatch($products, $user);
-        // foreach ($products as $product) {
-        //     SendOrderedMail::dispatch($product, $user);
-        // }
-
         Cart::where('user_id', Auth::id())->delete();
 
         return redirect()->route('user.items.index');
