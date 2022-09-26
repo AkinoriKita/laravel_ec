@@ -11,19 +11,33 @@
                 </div>
 
                 <!-- Navigation Links -->
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                        {{ __('Dashboard') }}
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
+                        {{ __('ホーム') }}
                     </x-nav-link>
-                </div> --}}
+                    <x-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
+                        {{ __('カート') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                
+                @guest
+                   <form method="get" action="{{ route('user.login') }}">
+                        @csrf
+                        <button class="mr-4 mt-1 flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">ログイン</button>
+                    </form> 
+                @endguest
+                
+                @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <div>ログイン切り替え</div>
+                            
+                            <div>{{ Auth::user()->name }}</div>
+                            
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -35,17 +49,22 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
-                        <form method="get" action="{{ route('admin.products.index') }}">
+                           <form method="POST" action="{{ route('user.logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('admin.products.index')"
+                            <x-dropdown-link :href="route('user.logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                管理者画面
+                                {{ __('Log out') }}
                             </x-dropdown-link>
-                        </form>
+                        </form> 
                     </x-slot>
-                </x-dropdown>
+                </x-dropdown> 
+                @endauth
+                <form class="ml-6" method="get" action="{{ route('admin.products.index') }}">
+                    @csrf
+                    <button class="mr-4 mt-1 flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">管理者用ページ</button>
+                </form>
             </div>
 
             <!-- Hamburger -->
@@ -62,14 +81,18 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        {{-- <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                {{ __('Dashboard') }}
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
+                {{ __('ホーム') }}
             </x-responsive-nav-link>
-        </div> --}}
+            <x-responsive-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
+                {{ __('カート') }}
+            </x-responsive-nav-link>
+        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
+            @auth
             <div class="flex items-center px-4">
                 <div class="flex-shrink-0">
                     <svg class="h-10 w-10 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,14 +100,24 @@
                     </svg>
                 </div>
 
-                {{-- <div class="ml-3">
+                <div class="ml-3">
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div> --}}
+                </div>
             </div>
-
+            @endauth
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
+                @guest
+                    <form method="get" action="{{ route('user.login') }}">
+                        @csrf
+                        <x-responsive-nav-link :href="route('user.login')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        ログイン
+                        </x-responsive-nav-link>
+                    </form> 
+                @endguest
                 <form method="get" action="{{ route('admin.products.index') }}">
                     @csrf
 
@@ -93,6 +126,16 @@
                                         this.closest('form').submit();">
                         管理者画面
                     </x-responsive-nav-link>
+                    @auth
+                         <form method="POST" action="{{ route('user.logout') }}">
+                            @csrf
+                            <x-responsive-nav-link :href="route('user.logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log out') }}
+                            </x-responsive-nav-link>
+                        </form>
+                    @endauth
                 </form>
             </div>
         </div>
