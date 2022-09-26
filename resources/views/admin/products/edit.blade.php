@@ -56,11 +56,16 @@
                                       <div><input type="radio" name="type" value="{{ \Constant::PRODUCT_LIST['reduce'] }}" class="mr-2">出荷</div>
                                     </div>
                                   </div>
-                                  <div class="p-2 w-full">
-                                    <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新する</button>
+                                  <div class="flex justify-center p-2 w-full">
+                                    <button class="mr-8 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新</button>
+                                  </form>
+                                    <form action="{{ route('admin.products.destroy', ['product' => $product->id]) }}" method="POST">
+                                      @csrf
+                                      @method('delete')
+                                      <button class="ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</button>
+                                    </form>
                                   </div>
                                 </div>
-                            </form>
                           </div>
                         </div>
                       </section>
