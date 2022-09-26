@@ -23,7 +23,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            {{-- <div>{{ Auth::user()->name }}</div> --}}
+                            <div>ログイン切り替え</div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -35,13 +35,13 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route('user.logout') }}">
+                        <form method="get" action="{{ route('admin.products.index') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('user.logout')"
+                            <x-dropdown-link :href="route('admin.products.index')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log out') }}
+                                管理者画面
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -85,13 +85,13 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('user.logout') }}">
+                <form method="get" action="{{ route('admin.products.index') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('user.logout')"
+                    <x-responsive-nav-link :href="route('admin.products.index')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log out') }}
+                        管理者画面
                     </x-responsive-nav-link>
                 </form>
             </div>
