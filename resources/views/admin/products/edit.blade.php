@@ -60,10 +60,11 @@
                                   <div class="flex justify-center p-2 w-full">
                                     <button class="mr-8 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新</button>
                                   </form>
-                                    <form action="{{ route('admin.products.destroy', ['product' => $product->id]) }}" method="POST">
+                                    <form id="delete_{{ $product->id }}" action="{{ route('admin.products.destroy', ['product' => $product->id]) }}" method="POST">
                                       @csrf
                                       @method('delete')
-                                      <button class="ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</button>
+                                      {{-- <button data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</button> --}}
+                                      <a href="#" data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="block ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</a>
                                     </form>
                                   </div>
                                 </div>
@@ -74,4 +75,12 @@
             </div>
         </div>
     </div>
+    <script>
+      function deleteProduct(e) {
+        'use strict';
+        if(confirm('本当に削除しますか？')) {
+          document.getElmentbyId('delete_' + e.dataset.id).submit();
+        }
+      }
+    </script>
 </x-app-layout>
