@@ -27,22 +27,35 @@
                                   </div>
                                   <div class="p-2 w-full">
                                     <div class="relative">
-                                      <label for="email" class="leading-7 text-sm text-gray-600">説明文</label>
-                                      <textarea id="message" name="information" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{ $product->information }}</textarea>
+                                      <label for="information" class="leading-7 text-sm text-gray-600">説明文</label>
+                                      <textarea id="information" name="information" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{ $product->information }}</textarea>
                                     </div>
                                   </div>
                                   <div class="p-2 w-full">
                                     <div class="relative">
-                                      <label for="message" class="leading-7 text-sm text-gray-600">価格</label>
-                                      <input type="number" id="email" name="price" value="{{ $product->price }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                      <label for="price" class="leading-7 text-sm text-gray-600">価格</label>
+                                      <input type="number" id="price" name="price" value="{{ $product->price }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                     </div>
                                   </div>
-                                  {{-- <div class="p-2 w-full">
+                                  <div class="p-2 w-full">
                                     <div class="relative">
-                                      <label for="message" class="leading-7 text-sm text-gray-600">在庫数</label>
-                                      <input type="number" id="email" name="email" value="" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                      <label for="current_quantity" class="leading-7 text-sm text-gray-600">現在の在庫数</label>
+                                      <input type="hidden" id="current_quantity" name="current_quantity" value="{{ $quantity }}">
+                                      <div class="w-full bg-gray-100 bg-opacity-50 rounded text-base outline-none text-gray-700 py-1 px-3 leading-8">{{ $quantity }}</div>
                                     </div>
-                                  </div> --}}
+                                  </div>
+                                  <div class="p-2 w-full">
+                                    <div class="relative">
+                                      <label for="quantity" class="leading-7 text-sm text-gray-600">数量</label>
+                                      <input type="number" id="quantity" name="quantity" value="0" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    </div>
+                                  </div>
+                                  <div class="p-2 w-full mt-4 mb-6">
+                                    <div class="relative flex justify-around">
+                                      <div><input type="radio" name="type" value="{{ \Constant::PRODUCT_LIST['add'] }}" class="mr-2" checked>入荷</div>
+                                      <div><input type="radio" name="type" value="{{ \Constant::PRODUCT_LIST['reduce'] }}" class="mr-2">出荷</div>
+                                    </div>
+                                  </div>
                                   <div class="p-2 w-full">
                                     <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新する</button>
                                   </div>

@@ -14,8 +14,6 @@ class Product extends Model
         'name',
         'information',
         'price',
-        'is_selling',
-        'sort_order',
     ];
 
     public function stock()
