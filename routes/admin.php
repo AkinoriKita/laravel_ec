@@ -26,7 +26,7 @@ Route::resource('products', ProductController::class)
     ->middleware(['auth:admin'])->except(['show']);;
 
 Route::get('/', function () {
-    return view('admin.welcome');
+    return view('admin.auth.login');
 });
 
 Route::get('/dashboard', function () {
