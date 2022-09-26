@@ -10,8 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="flex flex-wrap p-6 bg-white border-b border-gray-200">
                     <section class="text-gray-600 body-font mx-auto">
-                      <div class="container px-5 py-24 mx-auto">
-                        <div class="w-full mx-auto overflow-auto">
+                      <div class="container px-5 py-8 mx-auto">
+                        <x-flash-message status="session('status')" />
+                        <div class="w-full mx-auto overflow-auto mt-8">
                           <table class="table-auto w-full text-left whitespace-no-wrap">
                             <thead>
                               <tr>

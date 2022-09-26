@@ -74,7 +74,12 @@ class ProductController extends Controller
             throw $e;
         }
 
-        return redirect()->route('admin.products.index');
+        return redirect()
+            ->route('admin.products.index')
+            ->with([
+                'message' => '商品を登録しました。',
+                'status' => 'info'
+            ]);
     }
 
     public function edit($id)
@@ -99,6 +104,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:50',
             'information' => 'required|string|max:1000',
             'price' => 'required|integer',
+            'quantity' => 'required|integer',
         ]);
 
         $product = Product::findOrFail($id);
@@ -137,7 +143,12 @@ class ProductController extends Controller
                 throw $e;
             }
 
-            return redirect()->route('admin.products.index');
+            return redirect()
+                ->route('admin.products.index')
+                ->with([
+                    'message' => '商品情報を更新しました。',
+                    'status' => 'info'
+                ]);
         }
     }
 
