@@ -11,12 +11,12 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <section class="text-gray-600 body-font relative">
                         <div class="container px-5 py-12 mx-auto">
-                        <x-flash-message status="session('status')" />
                           <div class="flex flex-col text-center w-full mb-12">
                             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">商品情報編集</h1>
+                            <x-flash-message status="session('status')" />
                           </div>
                           <div class="lg:w-1/2 md:w-2/3 mx-auto">
-                            <form action="{{ route('admin.products.update', ['product' => $product->id]) }}" method="POST">
+                            <form action="{{ route('admin.products.update', ['product' => $product->id]) }}" method="POST" enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
                                 <div class="flex flex-wrap -m-2">
@@ -30,6 +30,19 @@
                                     <div class="relative">
                                       <label for="information" class="leading-7 text-sm text-gray-600">説明文</label>
                                       <textarea id="information" name="information" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{ $product->information }}</textarea>
+                                    </div>
+                                  </div>
+                                  <div class="p-2 w-full">
+                                    <div class="relative">
+                                      <label for="filename" class="leading-7 text-sm text-gray-600">商品画像</label>
+                                      <div class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-18 text-base outline-none text-gray-700 py-2 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
+                                        @if (!$product->filename === null)
+                                          <div>登録されている画像
+                                            <img src="{{ asset($product->filepath) }}" class="mt-2 mb-2">
+                                          </div>
+                                        @endif
+                                        <input type="file" id="filename" name="filename" accept="image/png,image/jpeg,image/jpg" value="{{ asset($product->filepath) }}">
+                                      </div>
                                     </div>
                                   </div>
                                   <div class="p-2 w-full">
@@ -63,8 +76,8 @@
                                     <form id="delete_{{ $product->id }}" action="{{ route('admin.products.destroy', ['product' => $product->id]) }}" method="POST">
                                       @csrf
                                       @method('delete')
-                                      {{-- <button data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</button> --}}
-                                      <a href="#" data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="block ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</a>
+                                      <button data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</button>
+                                      {{-- <a href="#" data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="block ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</a> --}}
                                     </form>
                                   </div>
                                 </div>

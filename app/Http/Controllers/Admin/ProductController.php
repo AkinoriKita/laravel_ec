@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(20);
+        $products = Product::orderBy('created_at', 'desc')->paginate(20);
 
         return view('admin.products.index', compact('products'));
     }
@@ -52,15 +52,27 @@ class ProductController extends Controller
             'name' => 'required|string|max:50',
             'information' => 'required|string|max:1000',
             'price' => 'required|integer',
+            'filename' => 'file|mimes:jpeg,png,jpg',
             'quantity' => 'required|integer',
         ]);
 
         try {
             DB::transaction(function () use ($request) {
+                // ディレクトリ名
+                $dir = 'images';
+
+                // アップロードされたファイル名を取得
+                $file_name = $request->filename->getClientOriginalName();
+
+                // 取得したファイル名で保存
+                $request->filename->storeAs('public/' . $dir, $file_name);
+
                 $product = Product::create([
                     'name' => $request->name,
                     'information' => $request->information,
                     'price' => $request->price,
+                    'filename' => $file_name,
+                    'filepath' => 'storage/' . $dir . '/' . $file_name
                 ]);
 
                 Stock::create([
@@ -104,6 +116,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:50',
             'information' => 'required|string|max:1000',
             'price' => 'required|integer',
+            'filename' => 'file|mimes:jpeg,png,jpg',
             'quantity' => 'required|integer',
         ]);
 
@@ -120,9 +133,20 @@ class ProductController extends Controller
         } else {
             try {
                 DB::transaction(function () use ($request, $product) {
+                    $dir = 'images';
+                    $file_name = "";
+                    if (isset($request->filename)) {
+                        // アップロードされたファイル名を取得
+                        $file_name = $request->filename->getClientOriginalName();
+                        // 取得したファイル名で保存
+                        $request->filename->storeAs('public/' . $dir, $file_name);
+                    }
+
                     $product->name = $request->name;
                     $product->information = $request->information;
                     $product->price = $request->price;
+                    $product->filename = $request->filename;
+                    $product->filepath = 'storage/' . $dir . '/' . $file_name;
                     $product->save();
 
                     if ($request->type === \Constant::PRODUCT_LIST['add']) {
@@ -136,6 +160,8 @@ class ProductController extends Controller
                         'product_id' => $product->id,
                         'type' => $request->type,
                         'quantity' => $newQuantity,
+                        'filename' => $file_name,
+                        'filepath' => 'storage/' . $dir . '/' . $file_name
                     ]);
                 }, 2);
             } catch (Throwable $e) {
@@ -144,7 +170,7 @@ class ProductController extends Controller
             }
 
             return redirect()
-                ->route('admin.products.index')
+                ->route('admin.products.edit', ['product' => $product->id])
                 ->with([
                     'message' => '商品情報を更新しました。',
                     'status' => 'info'
@@ -160,7 +186,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        Product::findOrFail($id)->delete();
+        Product::findOrFail($id)
+            ->delete();
 
         return redirect()
             ->route('admin.products.index')
