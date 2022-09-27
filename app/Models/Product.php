@@ -15,6 +15,8 @@ class Product extends Model
         'name',
         'information',
         'price',
+        'filename',
+        'filepath'
     ];
 
     public function stock()
