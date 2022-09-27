@@ -1,8 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            商品管理画面
-        </h2>
+        <div class="flex justify-between items-center">
+          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+              商品管理画面
+          </h2>
+          <form action="{{ route('admin.products.index') }}" method="get">
+            <div class="flex space-x-2 items-center">
+              <div><input name="keyword" class="border border-gray-500 px-2 py-2" value="{{ $keyword }}" placeholder="キーワード"></div>
+              <div><button class="ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">検索</button></div>
+            </div>
+          </form>
+        </div>
     </x-slot>
 
     <div class="py-12">
