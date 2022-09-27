@@ -14,7 +14,7 @@
                             <img alt="ecommerce" class="object-cover object-center block mx-auto mb-8" src="https://dummyimage.com/420x260">
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ $product->name }}</h1>
                             <p class="leading-relaxed mb-8">{{ $product->information }}</p>
-                            <div class="flex justify-around items-center">
+                            <div class="md:flex justify-around items-center">
                                 <div>
                                     <span class="title-font font-medium text-2xl text-gray-900">{{ number_format($product->price) }}</span><span class="test-sm text-gray-700">円</span>
                                 </div>
