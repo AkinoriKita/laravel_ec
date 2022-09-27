@@ -36,7 +36,7 @@
                                     <div class="relative">
                                       <label for="filename" class="leading-7 text-sm text-gray-600">商品画像</label>
                                       <div class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-18 text-base outline-none text-gray-700 py-2 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
-                                        @if (!$product->filename === null)
+                                        @if (!($product->filename === null))
                                           <div>登録されている画像
                                             <img src="{{ asset($product->filepath) }}" class="mt-2 mb-2">
                                           </div>
