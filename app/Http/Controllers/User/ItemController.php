@@ -32,7 +32,7 @@ class ItemController extends Controller
                 return redirect()
                     ->route('user.items.index')
                     ->with([
-                        'message' => '検索キーワードと一致する結果が見つかりませんでした。',
+                        'message' => '結果が見つかりませんでした。',
                         'status' => 'alert'
                     ]);
             }

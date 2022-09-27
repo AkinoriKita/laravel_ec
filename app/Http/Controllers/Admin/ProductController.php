@@ -22,11 +22,36 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::orderBy('created_at', 'desc')->paginate(20);
 
-        return view('admin.products.index', compact('products'));
+        $keyword = $request->input('keyword');
+
+        $query = Product::query();
+        // 検索フォームにキーワードが入力されたら
+        if (!is_null($keyword)) {
+            $spaceConvert = mb_convert_kana($keyword, 's');
+
+            $keywords = preg_split('/[\s]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach ($keywords as $word) {
+                $query->where('products.name', 'like', '%' . $word . '%');
+            }
+
+            $products = $query->paginate(20);
+
+            if (!$query->exists()) {
+                return redirect()
+                    ->route('admin.products.index')
+                    ->with([
+                        'message' => '結果が見つかりませんでした。',
+                        'status' => 'alert'
+                    ]);
+            }
+        }
+
+        return view('admin.products.index', compact('products', 'keyword'));
     }
 
     /**
