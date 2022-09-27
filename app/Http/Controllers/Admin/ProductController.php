@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Stock;
+use Illuminate\Validation\Rules\Unique;
+use Image;
 
 use function PHPSTORM_META\type;
 
@@ -29,7 +32,7 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
 
         $query = Product::query();
-        // 検索フォームにキーワードが入力されたら
+
         if (!is_null($keyword)) {
             $spaceConvert = mb_convert_kana($keyword, 's');
 
@@ -83,16 +86,21 @@ class ProductController extends Controller
 
         try {
             DB::transaction(function () use ($request) {
-                $dir = 'images';
-                $file_name = $request->filename->getClientOriginalName();
-                $request->filename->storeAs('public/' . $dir, $file_name);
+                $fileNameToStore = "";
+                if ($request->filename !== null) {
+                    $imageFile = $request->filename;
+                    $fileName = uniqid(rand() . '_');
+                    $extension =  $imageFile->extension();
+                    $fileNameToStore = $fileName . '_' . $extension;
 
+                    Image::make($imageFile)->resize(420, 260)->encode()->save(public_path("storage/images/{$fileNameToStore}"));
+                }
                 $product = Product::create([
                     'name' => $request->name,
                     'information' => $request->information,
                     'price' => $request->price,
-                    'filename' => $file_name,
-                    'filepath' => 'storage/' . $dir . '/' . $file_name
+                    'filename' => $fileNameToStore,
+                    'filepath' => 'storage/images/' . $fileNameToStore
                 ]);
 
                 Stock::create([
@@ -153,20 +161,21 @@ class ProductController extends Controller
         } else {
             try {
                 DB::transaction(function () use ($request, $product) {
-                    $dir = 'images';
-                    $file_name = "";
+                    $fileNameToStore = "";
                     if (isset($request->filename)) {
-                        // アップロードされたファイル名を取得
-                        $file_name = $request->filename->getClientOriginalName();
-                        // 取得したファイル名で保存
-                        $request->filename->storeAs('public/' . $dir, $file_name);
+                        $imageFile = $request->filename;
+                        $fileName = uniqid(rand() . '_');
+                        $extension =  $imageFile->extension();
+                        $fileNameToStore = $fileName . '_' . $extension;
+
+                        Image::make($imageFile)->resize(420, 260)->encode()->save(public_path("storage/images/{$fileNameToStore}"));
                     }
 
                     $product->name = $request->name;
                     $product->information = $request->information;
                     $product->price = $request->price;
-                    $product->filename = $request->filename;
-                    $product->filepath = 'storage/' . $dir . '/' . $file_name;
+                    $product->filename = $fileNameToStore;
+                    $product->filepath = 'storage/images/' . $fileNameToStore;
                     $product->save();
 
                     if ($request->type === \Constant::PRODUCT_LIST['add']) {
@@ -180,8 +189,8 @@ class ProductController extends Controller
                         'product_id' => $product->id,
                         'type' => $request->type,
                         'quantity' => $newQuantity,
-                        'filename' => $file_name,
-                        'filepath' => 'storage/' . $dir . '/' . $file_name
+                        'filename' => $fileNameToStore,
+                        'filepath' => 'storage/images/' . $fileNameToStore
                     ]);
                 }, 2);
             } catch (Throwable $e) {
