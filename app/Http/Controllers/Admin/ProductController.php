@@ -58,13 +58,8 @@ class ProductController extends Controller
 
         try {
             DB::transaction(function () use ($request) {
-                // ディレクトリ名
                 $dir = 'images';
-
-                // アップロードされたファイル名を取得
                 $file_name = $request->filename->getClientOriginalName();
-
-                // 取得したファイル名で保存
                 $request->filename->storeAs('public/' . $dir, $file_name);
 
                 $product = Product::create([
