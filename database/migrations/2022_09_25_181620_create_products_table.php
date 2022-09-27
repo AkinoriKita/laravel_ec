@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('price');
             $table->string('filename')->nullable();
             $table->string('filepath')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
