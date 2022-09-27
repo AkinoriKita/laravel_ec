@@ -11,7 +11,11 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="md:flex md:justify-around">
                         <div class="md:w-1/2 ml-4">
-                            <img alt="ecommerce" class="object-cover object-center block mx-auto mb-8" src="https://dummyimage.com/420x260">
+                            @if ($product->filename === null)
+                            <img alt="ecommerce" class="mx-auto mb-8" src="https://dummyimage.com/420x260">
+                            @else
+                            <img class="mx-auto mb-8" src="{{ asset($product->filepath) }}">
+                            @endif
                             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ $product->name }}</h1>
                             <p class="leading-relaxed mb-8">{{ $product->information }}</p>
                             <div class="md:flex justify-around items-center">

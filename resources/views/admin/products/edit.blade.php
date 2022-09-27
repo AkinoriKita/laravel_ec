@@ -36,12 +36,12 @@
                                     <div class="relative">
                                       <label for="filename" class="leading-7 text-sm text-gray-600">商品画像</label>
                                       <div class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-18 text-base outline-none text-gray-700 py-2 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
-                                        @if (!($product->filename === null))
-                                          <div>登録されている画像
-                                            <img src="{{ asset($product->filepath) }}" class="mt-2 mb-2">
+                                        @if (!($product->filename == ""))
+                                          <div>現在登録されている画像
+                                            <img src="{{ asset($product->filepath) }}" class="mt-2 mb-2 mx-auto">
                                           </div>
                                         @endif
-                                        <input type="file" id="filename" name="filename" accept="image/png,image/jpeg,image/jpg" value="{{ asset($product->filepath) }}">
+                                        <input type="file" id="filename" name="filename" accept="image/png,image/jpeg,image/jpg">
                                       </div>
                                     </div>
                                   </div>
@@ -73,11 +73,12 @@
                                   <div class="flex justify-center p-2 w-full">
                                     <button class="mr-8 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新</button>
                                   </form>
-                                    <form id="delete_{{ $product->id }}" action="{{ route('admin.products.destroy', ['product' => $product->id]) }}" method="POST">
+                                    <form id="delete_{{$product->id}}" method="post" action="{{ route('admin.products.destroy', ['product' => $product->id ] )}}">
                                       @csrf
                                       @method('delete')
-                                      <button data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</button>
-                                      {{-- <a href="#" data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="block ml-8 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">削除</a> --}}
+                                      <div class="p-3 w-fulljustify-around">
+                                        <a href="#" data-id="{{ $product->id }}" onclick="deleteProduct(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded ">削除する</a>                        
+                                      </div>
                                     </form>
                                   </div>
                                 </div>
@@ -91,9 +92,9 @@
     <script>
       function deleteProduct(e) {
         'use strict';
-        if(confirm('本当に削除しますか？')) {
-          document.getElmentbyId('delete_' + e.dataset.id).submit();
+        if (confirm('本当に削除してもいいですか?')) {
+        document.getElementById('delete_' + e.dataset.id).submit();
         }
-      }
+    }
     </script>
 </x-app-layout>

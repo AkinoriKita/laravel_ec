@@ -28,7 +28,7 @@
                         <div class="-m-4 mx-auto">
                           <div class="md:p-2 lg:p-4 w-full">
                                 <a class="block relative h-48 rounded overflow-hidden" href="{{ route('user.items.show', ['item' => $product->id]) }}">
-                                  @if ($product->filename === null)
+                                  @if ($product->filename == "")
                                   <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/420x260">
                                   @else
                                   <img class="object-cover object-center w-full h-full block" src="{{ asset($product->filepath) }}">
