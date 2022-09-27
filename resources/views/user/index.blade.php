@@ -39,8 +39,8 @@
                           </div>
                         </section>
                     @endforeach
-                    {{ $products->links() }}
                   </div>
+                  {{ $products->links() }}
                 </div>
         </div>
     </div>
