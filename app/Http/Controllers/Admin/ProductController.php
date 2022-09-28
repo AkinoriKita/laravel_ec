@@ -91,7 +91,7 @@ class ProductController extends Controller
                     $imageFile = $request->filename;
                     $fileName = uniqid(rand() . '_');
                     $extension =  $imageFile->extension();
-                    $fileNameToStore = $fileName . '_' . $extension;
+                    $fileNameToStore = $fileName . '.' . $extension;
 
                     Image::make($imageFile)->resize(420, 260)->encode()->save(public_path("storage/images/{$fileNameToStore}"));
                 }
@@ -166,7 +166,7 @@ class ProductController extends Controller
                         $imageFile = $request->filename;
                         $fileName = uniqid(rand() . '_');
                         $extension =  $imageFile->extension();
-                        $fileNameToStore = $fileName . '_' . $extension;
+                        $fileNameToStore = $fileName . '.' . $extension;
 
                         Image::make($imageFile)->resize(420, 260)->encode()->save(public_path("storage/images/{$fileNameToStore}"));
                     }
