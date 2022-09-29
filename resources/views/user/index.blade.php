@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-around items-center">
+        <div class="flex justify-between items-center">
           <div>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 商品一覧画面
@@ -28,7 +28,11 @@
                         <div class="-m-4 mx-auto">
                           <div class="md:p-2 lg:p-4 w-full">
                                 <a class="block relative h-48 rounded overflow-hidden" href="{{ route('user.items.show', ['item' => $product->id]) }}">
+                                  @if ($product->filename == "")
                                   <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/420x260">
+                                  @else
+                                  <img class="object-cover object-center w-full h-full block" src="{{ asset($product->filepath) }}">
+                                  @endif
                                 </a>
                                 <div class="mt-4">
                                   <h2 class="text-gray-900 title-font text-lg font-medium">{{ $product->name }}</h2>

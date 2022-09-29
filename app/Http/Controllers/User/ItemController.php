@@ -11,12 +11,11 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::paginate(20);
+        $products = Product::orderBy('created_at', 'desc')->paginate(20);
 
         $keyword = $request->input('keyword');
 
         $query = Product::query();
-
         // 検索フォームにキーワードが入力されたら
         if (!is_null($keyword)) {
             $spaceConvert = mb_convert_kana($keyword, 's');
@@ -33,7 +32,7 @@ class ItemController extends Controller
                 return redirect()
                     ->route('user.items.index')
                     ->with([
-                        'message' => '検索キーワードと一致する結果が見つかりませんでした。',
+                        'message' => '結果が見つかりませんでした。',
                         'status' => 'alert'
                     ]);
             }

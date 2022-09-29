@@ -13,7 +13,11 @@
                         @foreach ($products as $product)
                             <div class="md:flex md:items-center mb-2">
                                 <div class="md:w-4/12">
-                                    <img alt="ecommerce" class="object-cover object-center block mx-auto mb-8" src="https://dummyimage.com/420x260">
+                                    @if ($product->filename == "")
+                                    <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/420x260">
+                                    @else
+                                    <img class="object-cover object-center w-full h-full block" src="{{ asset($product->filepath) }}">
+                                    @endif
                                 </div>
                                 <div class="md:w-4/12 md:ml-2">{{ $product->name }}</div>
                                 <div class="md:w-4/12 flex justify-around">
