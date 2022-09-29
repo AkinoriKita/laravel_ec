@@ -23,7 +23,7 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                
+                <a href="{{ route('admin.products.index') }}" class="mr-4 mt-1 flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">管理者用ページ</a href="{{ route('admin.products.index') }}">
                 @guest
                    <form method="get" action="{{ route('user.login') }}">
                         @csrf
@@ -61,10 +61,6 @@
                     </x-slot>
                 </x-dropdown> 
                 @endauth
-                <form class="ml-6" method="get" action="{{ route('admin.products.index') }}">
-                    @csrf
-                    <button class="mr-4 mt-1 flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">管理者用ページ</button>
-                </form>
             </div>
 
             <!-- Hamburger -->
